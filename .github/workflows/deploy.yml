@@ -2,24 +2,24 @@ name: test
 on:
     push:
         branches: ['main']
-
 jobs:
     deploy:
         name: DEPLOY TEST APP
         runs-on: ubuntu-latest
         steps:
-	      - name: Checkout
-	        uses: action/checkout@v2
-	      - name: SSH KEY CONFIG
-              env:
+	     - name: Checkout
+	       uses: actions/checkout@v2
+	       
+	     - name: SSH KEY CONFIG
+               env:
 		  SSH_KEY: ${{secrets.SSH_PVT_KEY}}
-	      run: |
-	          mkdir -p ~/.ssh
-                  echo -e "Host *\n\tStrictHostKeyChecking no\n      SendEnv CI_*  \n" > ~/.ssh/config
-                  echo -n  $SSH_KEY  > ~/.ssh/id_rsa
-                  cat ~/.ssh/id_rsa
-                  chmod 700 ~/.ssh
-                  chmod 600 ~/.ssh/id_rsa
-	          - name: RUN CMD SSH
-              run: |
-                  ssh ubuntu@18.156.129.126 'pwd'
+	       run: |
+	           mkdir -p ~/.ssh
+                   echo -e "Host *\n\tStrictHostKeyChecking no\n      SendEnv CI_*  \n" > ~/.ssh/config
+                   echo -n  $SSH_KEY  > ~/.ssh/id_rsa
+                   cat ~/.ssh/id_rsa
+                   chmod 700 ~/.ssh
+                   chmod 600 ~/.ssh/id_rsa
+	      - name: RUN CMD SSH
+                run: |
+                    ssh ubuntu@18.156.129.126 'pwd'
