@@ -1,13 +1,25 @@
 name: learn-github-actions
-on: [push]
+on:
+  push:
+    branches: [ main ]
 jobs:
-  check-bats-version:
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '14'
-      - run: npm install -g bats
-      - run: bats -v
+      
+      - name: ssh key setup
+        env:
+          SSH_KEY: ${{secrets.SSH_PVT_KEY}}
+        run: |
+            mkdir -p ~/.ssh
+            echo -e "Host *\n\tStrictHostKeyChecking no\n      SendEnv CI_*  \n" > ~/.ssh/config
+            echo -n  $SSH_KEY  > ~/.ssh/id_rsa
+            cat ~/.ssh/id_rsa
+            chmod 700 ~/.ssh
+            chmod 600 ~/.ssh/id_rsa
+            ssh ubuntu@18.156.129.126 'pwd'
+
+            
+
 
