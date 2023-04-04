@@ -10,7 +10,7 @@ jobs:
         name: DEPLOY TEST APP
         runs-on: ubuntu-latest
         steps:
-	  - name: Chekcout
+	  - name: Checkout
 	    uses: action/checkout@v2
 
 	  - name: SSH KEY CONFIG
