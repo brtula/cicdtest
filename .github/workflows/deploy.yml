@@ -3,23 +3,21 @@ on:
   push:
     branches: [ main ]
 jobs:
-  test:
+
+  build:
+    name: Build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      
-      - name: ssh key setup
-        env:
-          SSH_KEY: ${{secrets.SSH_PVT_KEY}}
-        run: |
-            mkdir -p ~/.ssh
-            echo -e "Host *\n\tStrictHostKeyChecking no\n      SendEnv CI_*  \n" > ~/.ssh/config
-            echo -n  $SSH_KEY  > ~/.ssh/id_rsa
-            cat ~/.ssh/id_rsa
-            chmod 700 ~/.ssh
-            chmod 600 ~/.ssh/id_rsa
-            ssh ubuntu@18.156.129.126 'pwd'
-
+    - name: executing remote ssh commands
+      uses: appleboy/ssh-action@v0.1.8
+      with:
+        host: 18.156.129.126
+        username: ubuntu
+        key: ${{ secrets.SSH_KEY }}
+        port: 22
+        script: |
+               whoami
+               ls -alh
             
 
 
