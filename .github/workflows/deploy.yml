@@ -1,7 +1,7 @@
 name: learn-github-actions
 on:
   push:
-    branches: [ main ]
+    branches: [ develop ]
 jobs:
 
   build:
@@ -9,15 +9,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: executing remote ssh commands
-      uses: appleboy/ssh-action@v0.1.8
-      with:
-        host: 204.48.30.132
-        username: ubuntu
-        key: ${{ secrets.SSH_PVT_KEY }}
-        port: 22
-        script: |
-               whoami
-               ls -alh
+      env:
+         SSH_PRIVATE_KEY: ${{ secrets.SSH_PVT_KEY }}
+      run: |
+          apt-get update -qq
+          'which ssh-agent || ( apt-get install -qq openssh-client )'
+          eval $(ssh-agent -s)
+          ssh-add <(echo "$SSH_PRIVATE_KEY")
+          'echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+          ssh ubuntu@204.48.30.132 "ls -lah"
             
 
 
