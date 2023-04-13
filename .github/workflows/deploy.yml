@@ -16,8 +16,8 @@ jobs:
         key: ${{ secrets.SSH_PVT_KEY }}
         port: 22
         script: |
-               whoami
-               ls -alh
+               cd /home/ubuntu
+               bash deploy.sh
             
 
 
