@@ -18,7 +18,7 @@ jobs:
           ssh-add <(echo "$SSH_PRIVATE_KEY")
           mkdir -p ~/.ssh && touch ~/.ssh/config
           echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
-          ssh ubuntu@204.48.30.132 "ls -lah"
+          ssh ubuntu@204.48.30.132 "cd /home/ubuntu && bash deploy.sh"
             
 
 
